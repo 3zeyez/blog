@@ -1,0 +1,35 @@
+graph TD
+    Client[Client Applications]
+    API[API Gateway]
+    Auth[Authentication Service]
+    UserService[User Service]
+    BlogService[Blog Service]
+    NotificationService[Notification Service]
+    SearchService[Search Service]
+    FileService[File Storage Service]
+    
+    UserDB[(User Database)]
+    BlogDB[(Blog Database)]
+    SearchDB[(Search Index)]
+    Cache[(Redis Cache)]
+    Queue[(Message Queue)]
+    
+    Client --> API
+    API --> Auth
+    API --> UserService
+    API --> BlogService
+    API --> NotificationService
+    API --> SearchService
+    API --> FileService
+    
+    Auth --> UserDB
+    UserService --> UserDB
+    BlogService --> BlogDB
+    BlogService --> SearchService
+    BlogService --> Queue
+    NotificationService --> Queue
+    SearchService --> SearchDB
+    FileService --> Storage[Object Storage]
+    
+    BlogService --> Cache
+    UserService --> Cache
