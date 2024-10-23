@@ -1,35 +1,39 @@
-graph TD
-    Client[Client Applications]
-    API[API Gateway]
-    Auth[Authentication Service]
-    UserService[User Service]
-    BlogService[Blog Service]
-    NotificationService[Notification Service]
-    SearchService[Search Service]
-    FileService[File Storage Service]
-    
-    UserDB[(User Database)]
-    BlogDB[(Blog Database)]
-    SearchDB[(Search Index)]
-    Cache[(Redis Cache)]
-    Queue[(Message Queue)]
-    
-    Client --> API
-    API --> Auth
-    API --> UserService
-    API --> BlogService
-    API --> NotificationService
-    API --> SearchService
-    API --> FileService
-    
-    Auth --> UserDB
-    UserService --> UserDB
-    BlogService --> BlogDB
+graph LR
+    subgraph Client
+        ClientApplications
+    end
+    subgraph Gateway
+        API_Gateway
+    end
+    subgraph Services
+        AuthenticationService
+        BlogService
+        UserService
+        NotificationService
+        FileStorageService
+        SearchService
+    end
+    subgraph Data
+        UserDatabase
+        RedisCache
+        BlogDatabase
+        SearchIndex
+        MessageQueue
+        ObjectStorage
+    end
+    ClientApplications --> API_Gateway
+    API_Gateway --> AuthenticationService
+    API_Gateway --> BlogService
+    API_Gateway --> UserService
+    API_Gateway --> NotificationService
+    API_Gateway --> FileStorageService
+    AuthenticationService --> UserDatabase
+    UserService --> RedisCache
+    UserService --> UserDatabase
+    BlogService --> BlogDatabase
+    BlogService --> RedisCache
     BlogService --> SearchService
-    BlogService --> Queue
-    NotificationService --> Queue
-    SearchService --> SearchDB
-    FileService --> Storage[Object Storage]
-    
-    BlogService --> Cache
-    UserService --> Cache
+    BlogService --> MessageQueue
+    SearchService --> SearchIndex
+    FileStorageService --> ObjectStorage
+    NotificationService --> MessageQueue
