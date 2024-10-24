@@ -21,12 +21,20 @@ graph LR
         MessageQueue
         ObjectStorage
     end
+    subgraph MessageBroker
+        Broker
+    end
+    
     ClientApplications --> API_Gateway
-    API_Gateway --> AuthenticationService
-    API_Gateway --> BlogService
-    API_Gateway --> UserService
-    API_Gateway --> NotificationService
-    API_Gateway --> FileStorageService
+    API_Gateway --> Broker
+    
+    Broker --> AuthenticationService
+    Broker --> BlogService
+    Broker --> UserService
+    Broker --> NotificationService
+    Broker --> FileStorageService
+    Broker --> SearchService
+    
     AuthenticationService --> UserDatabase
     UserService --> RedisCache
     UserService --> UserDatabase
